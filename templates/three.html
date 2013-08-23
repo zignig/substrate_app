@@ -36,19 +36,6 @@
 				var geometry = new THREE.CylinderGeometry( 0, 10, 30, 4, 1 );
 				var material =  new THREE.MeshLambertMaterial( { color:0xffffff, shading: THREE.FlatShading } );
 
-				for ( var i = 0; i < 50; i ++ ) {
-
-					var mesh = new THREE.Mesh( geometry, material );
-					mesh.position.x = ( Math.random() - 0.5 ) * 100;
-					mesh.position.y = ( Math.random() - 0.5 ) * 100;
-					mesh.position.z = ( Math.random() - 0.5 ) * 100;
-					mesh.updateMatrix();
-					mesh.matrixAutoUpdate = false;
-					scene.add( mesh );
-
-				}
-
-
 				// lights
 
 				light = new THREE.DirectionalLight( 0x777777);
@@ -81,6 +68,7 @@
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
+				render();
 
 			}
 
