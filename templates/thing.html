@@ -1,0 +1,11 @@
+$def with (content)
+<h1>$content['name']</h1>
+by <a href="/author/$content['author']">$content['author']</a>
+<hr>
+$if 'tags' in content:
+  <div class="btn-group">
+  $for i in content['tags']:
+    <a class="btn btn-default" href="/tags/$i">$i</a>
+  </div>
+<br>
+$content.keys()

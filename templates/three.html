@@ -21,8 +21,8 @@
 
 			function init() {
 
-				camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
-				camera.position.z = 500;
+				camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 5000 );
+				camera.position.z = 100;
 
 				controls = new THREE.OrbitControls( camera );
 				controls.addEventListener( 'change', render );
@@ -31,10 +31,8 @@
 				//scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
 				loader = new THREE.JSONLoader();
-                                  loader.load( "../static/models/model.js", function( geometry ) { mesh = new THREE.Mesh( geometry, new THREE.MeshNormalMaterial() ); } );
+                                  loader.load( "../static/models/model.js", function( geometry ) { mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial({ color : 0xAAAAAA}) );scene.add(mesh) } );
 				// world
-				var geometry = new THREE.CylinderGeometry( 0, 10, 30, 4, 1 );
-				var material =  new THREE.MeshLambertMaterial( { color:0xffffff, shading: THREE.FlatShading } );
 
 				// lights
 
@@ -52,9 +50,9 @@
 
 				// renderer
 
-				renderer = new THREE.WebGLRenderer( { antialias: false } );
+				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				//renderer.setClearColor( scene.fog.color, 1 );
-				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setSize( 1024,768);
 
 				container = document.getElementById( 'tjs' );
 				container.appendChild( renderer.domElement );
@@ -68,8 +66,7 @@
 				//
 
 				window.addEventListener( 'resize', onWindowResize, false );
-				render();
-
+				renderer.render(scene,camera);
 			}
 
 			function onWindowResize() {
