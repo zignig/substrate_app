@@ -6,13 +6,17 @@ $if 'author' in content:
   <br>
 <hr>
 $if 'tags' in content:
+  <h4>Tags</h4>
   <div class="btn-group">
   $for i in content['tags']:
     <a class="btn btn-default" href="/tags/$i">$i</a>
   </div>
-<br>
 $if 'thumb' in content:
+  <hr>
+  <h4>Images</h4>
+  <div class="inner-item">
   <img class="img-thumbnail" src="/attachment/$content['_id']/$content['thumb']">
+  </div>
 <br>
 $if '_attachments' in content:
   <h4>Files</h4>
@@ -23,5 +27,7 @@ $if '_attachments' in content:
 <br>
 $if 'url' in content:
   link : <a target="_blank" href="$content['url']">$content['url']</a>
+<hr>
+$:actions()
 <hr>
 $content

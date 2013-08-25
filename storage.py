@@ -28,7 +28,13 @@ class storage:
 		d = r.json()
 		ret = {}
 		rows = len(d['rows'])
+		pages = (rows//pagination)+1
+		ret['view'] = view
+		ret['value'] = value
 		ret['rows'] = rows 
-		ret['pages'] = (rows//pagination)+1 
-		ret['data'] = d['rows']
+		ret['page'] = page
+		ret['pages'] = pages 
+		ret['pagination'] = pagination
+		# return only 1 page
+		ret['data'] = d['rows'][page*pagination:page*pagination+pagination]
 		return ret

@@ -31,10 +31,15 @@ def nav_bar():
 	nav = inserts.nav_bar(data)
 	return nav
 
+def actions():
+	data = ['process','render','clean','strip','print']
+	actions = inserts.actions(data)
+	return actions
+
 app = web.application(urls, globals())
 
-render = web.template.render('templates/',base='base',globals={'menu':get_menu,'nav_bar':nav_bar})
-session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'count': 0})
+render = web.template.render('templates/',base='base',globals={'actions': actions ,'menu':get_menu,'nav_bar':nav_bar})
+#session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'count': 0})
 
 class home:
 	def GET(self):
@@ -53,13 +58,14 @@ class thing:
 
 class author:
 	def GET(self,name):
-		print web.input()
-		l = stor.author(name,0)
+		page = web.input(page=0)
+		l = stor.author(name,int(page['page']))
 		return render.item_list(l)
 
 class tags:
 	def GET(self,name):
-		l = stor.tag(name,0)
+		page = web.input(page=0)
+		l = stor.tag(name,int(page['page']))
 		return render.item_list(l)
 
 class attachment:
