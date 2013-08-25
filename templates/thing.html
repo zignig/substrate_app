@@ -1,6 +1,9 @@
 $def with (content)
-<h1>$content['name']</h1>
-by <a href="/author/$content['author']">$content['author']</a>
+$if 'name' in content:
+  <h1>$content['name']</h1>
+$if 'author' in content:
+  by <a href="/author/$content['author']">$content['author']</a>
+  <br>
 <hr>
 $if 'tags' in content:
   <div class="btn-group">
@@ -8,4 +11,17 @@ $if 'tags' in content:
     <a class="btn btn-default" href="/tags/$i">$i</a>
   </div>
 <br>
-$content.keys()
+$if 'thumb' in content:
+  <img class="img-thumbnail" src="/attachment/$content['_id']/$content['thumb']">
+<br>
+$if '_attachments' in content:
+  <h4>Files</h4>
+  <ul class="list-group">
+  $for i in content['_attachments']:
+    <a href="/attachment/$content['_id']/$i" class="list-group-item">$i</a>
+  </ul>
+<br>
+$if 'url' in content:
+  link : <a target="_blank" href="$content['url']">$content['url']</a>
+<hr>
+$content

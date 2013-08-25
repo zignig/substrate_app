@@ -2,14 +2,20 @@
 import web
 import requests,string
 
+import storage
+
 couch = 'http://192.168.1.84:5984/'
-database = 'zignig'
+database = 'incoming'
+stor = storage.storage(couch,database)
 
 urls = (
-	'/','home',
-    '/slides/(.*)','slides',
+	'/','slides',
+    '/author/(.*)','author',
+    '/tags/(.*)','tags',
+    '/slides/','slides',
 	'/config','config',
     '/thing/(.*)','thing',
+    '/attachment/(.*)','attachment',
 	'/(.*)', 'hello'
 )
 
@@ -28,6 +34,7 @@ def nav_bar():
 app = web.application(urls, globals())
 
 render = web.template.render('templates/',base='base',globals={'menu':get_menu,'nav_bar':nav_bar})
+session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'count': 0})
 
 class home:
 	def GET(self):
@@ -41,15 +48,31 @@ class thing:
 	def GET(self,name):
 		print name
 		doc_id = string.split(name,'/')[-1]
-		r = requests.get(couch+'/'+database+'/'+doc_id)
-		return render.thing(r.json())
+		r = stor.get_doc(doc_id)
+		return render.thing(r)
+
+class author:
+	def GET(self,name):
+		print web.input()
+		l = stor.author(name,0)
+		return render.item_list(l)
+
+class tags:
+	def GET(self,name):
+		l = stor.tag(name,0)
+		return render.item_list(l)
+
+class attachment:
+	def GET(self,name):
+		r = stor.get_attach(name)
+		return r
 
 class hello:        
     def GET(self, name):
 		return render.three()
 
 class slides:
-	def GET(self,name):
+	def GET(self):
 		r = requests.get(couch+'/'+database+'/_design/robot/_view/mime_types?key=%22image/jpeg%22&reduce=false&limit=20')
 		j = r.json()
 		print j

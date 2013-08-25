@@ -2,22 +2,14 @@ $def with (content)
 $var title: 'slides'
 <div class="bs-example">
 <div id="carousel-example-generic" class="carousel slide">
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-$for i in range(1,len(content['rows'])-1):
-  <li data-target="#carousel-example-generic" data-slide-to="$i"></li>
-</ol>
-
   <!-- Wrapper for slides -->
   <div height="400px" class="carousel-inner">
     <div class="item active">
-      <img src="../static/img/crate.gif" alt="stuff">
-      <div class="carousel-caption">
-		BLAH
-      </div>
+    <div class="inner-item">
+  	  <img  src="$content['couch']/$content['database']/$content['rows'][0]['id']/$content['rows'][0]['value']" alt="stuff">
     </div>
-$for i in content['rows']:
+    </div>
+$for i in content['rows'][1:]:
   <div class="item ">
   <div class="inner-item">
   <a href="/thing/$i['id']">

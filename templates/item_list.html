@@ -1,0 +1,21 @@
+$def with (content)
+$if content['rows'] > 20:
+  <ul class="pagination">
+  <li><a href="#">&laquo;</a></li>
+  $for i in range((content['rows']//20)+1):
+    <li><a href="?page=$i">$i</a></li>
+  <li><a href="#">&raquo;</a></li>
+  </ul>
+
+<div class="list-group">
+$for i in content['data']:
+  <a href="/thing/$i['id']">
+  <div class="list-group-item">
+  $if 'thumb' in i['value']:
+    <img class="img-thumbnail" src="/attachment/$i['id']/$i['value']['thumb']">
+    <br>
+  <a href="/thing/$i['id']">$i['value']['name']</a>
+  <small>by $i['value']['author']</small>
+  </div>
+  </a>
+</div>
