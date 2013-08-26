@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import web
 import requests,string
+import markdown
 
 import storage
 
@@ -16,6 +17,7 @@ urls = (
 	'/config','config',
     '/thing/(.*)','thing',
     '/attachment/(.*)','attachment',
+	'/action/(.+)/(.+)','do_action',
 	'/(.*)', 'hello'
 )
 
@@ -31,14 +33,21 @@ def nav_bar():
 	nav = inserts.nav_bar(data)
 	return nav
 
-def actions():
+def actions(id):
 	data = ['process','render','clean','strip','print']
-	actions = inserts.actions(data)
+	actions = inserts.actions(data,id)
 	return actions
 
 app = web.application(urls, globals())
 
-render = web.template.render('templates/',base='base',globals={'actions': actions ,'menu':get_menu,'nav_bar':nav_bar})
+t_globals = {
+	'actions': actions ,
+	'menu':get_menu,
+	'nav_bar':nav_bar,
+	'markdown': markdown.markdown
+}
+
+render = web.template.render('templates/',base='base',globals=t_globals)
 #session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'count': 0})
 
 class home:
@@ -61,6 +70,12 @@ class author:
 		page = web.input(page=0)
 		l = stor.author(name,int(page['page']))
 		return render.item_list(l)
+
+class do_action:
+	def GET(self,action,doc_id):
+		print action,doc_id
+		stor.send_action(action,doc_id)
+		return 'woot'
 
 class tags:
 	def GET(self,name):

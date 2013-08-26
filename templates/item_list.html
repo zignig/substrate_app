@@ -13,19 +13,23 @@ $if content['pages'] > 1:
   <li><a href="#">&raquo;</a></li>
   </ul>
 </div>
-<div class="list-group">
+<hr>
 $for i in content['data']:
   <a href="/thing/$i['id']">
-  <div class="list-group-item">
+  <div class="row">
   $if 'thumb' in i['value']:
+    <div class="col-sm-3">
     <img class="img-thumbnail" src="/attachment/$i['id']/$i['value']['thumb']">
-    <br>
+    </div>
+  <div class="col-md-11">
   <a href="/thing/$i['id']">$i['value']['name']</a>
-  <small>by $i['value']['author']</small>
+  <br><small>by $i['value']['author']</small>
+  </div>
   </div>
   </a>
-</div>
-<ul class="pager">
-  <li><a href="?page=$(content['page']+1)">Next</a></li>
-</ul>
+  <hr>
 
+$if content['pages'] > 1:
+  <ul class="pager">
+  <li><a href="?page=$(content['page']+1)">Next</a></li>
+  </ul>

@@ -1,33 +1,38 @@
 $def with (content)
 $if 'name' in content:
-  <h1>$content['name']</h1>
+  $if len(content['name']) < 20:
+    <h1>$content['name']</h1>
+  $else:
+    <h3>$content['name']</h3>
 $if 'author' in content:
   by <a href="/author/$content['author']">$content['author']</a>
-  <br>
-<hr>
-$if 'tags' in content:
-  <h4>Tags</h4>
-  <div class="btn-group">
-  $for i in content['tags']:
-    <a class="btn btn-default" href="/tags/$i">$i</a>
-  </div>
-$if 'thumb' in content:
   <hr>
-  <h4>Images</h4>
+$if 'description' in content:
+  <h4><span class="glyphicon glyphicon-book"></span> Description</h4>
+  $:markdown(content['description'])
+  <hr>
+$if 'tags' in content:
+  <h4><span class="glyphicon glyphicon-tags"></span> Tags</h4>
+  $for i in content['tags']:
+    <a class="label label-default" href="/tags/$i">$i</a>
+  <hr>
+$if 'thumb' in content:
+  <h4><span class="glyphicon glyphicon-picture"></span> Images</h4>
   <div class="inner-item">
   <img class="img-thumbnail" src="/attachment/$content['_id']/$content['thumb']">
   </div>
-<br>
+  <hr>
 $if '_attachments' in content:
-  <h4>Files</h4>
+  <h4><span class="glyphicon glyphicon-folder-open"></span>  Files</h4>
   <ul class="list-group">
   $for i in content['_attachments']:
-    <a href="/attachment/$content['_id']/$i" class="list-group-item">$i</a>
+    <li class="list-group-item">
+    $i<a href="/attachment/$content['_id']/$i" class="label label-default pull-right">Download</a>
+    </li>
   </ul>
-<br>
+  <hr>
+<h4><span class="glyphicon glyphicon-wrench"></span> Actions</h4>
+$:actions(content['_id'])
+<hr>
 $if 'url' in content:
-  link : <a target="_blank" href="$content['url']">$content['url']</a>
-<hr>
-$:actions()
-<hr>
-$content
+  original: <a target="_blank" href="$content['url']">$content['url']</a>
