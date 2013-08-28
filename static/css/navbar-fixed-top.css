@@ -6,3 +6,16 @@ body {
     text-align: center;
     img {
     margin: 0 auto;}}
+
+.padded { padding:2px;}
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.link {
+  stroke: #999;
+  stroke-opacity: .6;
+}
+
+
