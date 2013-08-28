@@ -18,6 +18,7 @@ urls = (
     '/thing/(.*)','thing',
     '/attachment/(.*)','attachment',
 	'/action/(.+)/(.+)','do_action',
+	'/graph/(.*)','d3graph',
 	'/(.*)', 'hello'
 )
 
@@ -88,18 +89,20 @@ class attachment:
 		r = stor.get_attach(name)
 		return r
 
+class d3graph:
+	def GET(self,name):
+		name = '/static/models/test.js'
+		return render.graph(name)
+
 class hello:        
     def GET(self, name):
 		return render.three()
 
 class slides:
 	def GET(self):
-		r = requests.get(couch+'/'+database+'/_design/robot/_view/mime_types?key=%22image/jpeg%22&reduce=false&limit=20')
-		j = r.json()
-		print j
-		j['couch'] = couch
-		j['database'] = database
-		return render.slides(j)
+		page = web.input(page=0)
+		l = stor.home('',int(page['page']))
+		return render.item_list(l)
 
 if __name__ == "__main__":
     app.run()

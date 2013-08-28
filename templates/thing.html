@@ -13,8 +13,10 @@ $if 'description' in content:
   <hr>
 $if 'tags' in content:
   <h4><span class="glyphicon glyphicon-tags"></span> Tags</h4>
+  <div class="btn-group">
   $for i in content['tags']:
-    <a class="label label-default" href="/tags/$i">$i</a>
+    <a class="btn btn-default" href="/tags/$i">$i</a>
+  </div>
   <hr>
 $if 'thumb' in content:
   <h4><span class="glyphicon glyphicon-picture"></span> Images</h4>

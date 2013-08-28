@@ -14,22 +14,27 @@ $if content['pages'] > 1:
   </ul>
 </div>
 <hr>
+<div class="row">
 $for i in content['data']:
+  <div class="pull-left padded">
   <a href="/thing/$i['id']">
-  <div class="row">
   $if 'thumb' in i['value']:
-    <div class="col-sm-3">
     <img class="img-thumbnail" src="/attachment/$i['id']/$i['value']['thumb']">
-    </div>
-  <div class="col-md-11">
-  <a href="/thing/$i['id']">$i['value']['name']</a>
-  <br><small>by $i['value']['author']</small>
-  </div>
-  </div>
+  $else:
+    <img class="img-thumbnail" src="/static/img/placeholder.png">
+  <br>
+  $if len(i['value']['name']) < 25:
+    <a href="/thing/$i['id']">$i['value']['name']</a>
+  $else:
+    <a title="" data-toggle="tooltip" data-original-title="$i['value']['name']" href="/thing/$i['id']">$i['value']['name'][:25]...</a>
+  <br><small>by <a href="/author/$i['value']['author']">$i['value']['author']</a></small>
   </a>
-  <hr>
+  <p>
+  </div>
+</div>
+<hr>
 
-$if content['pages'] > 1:
+$if (content['pages'] > 1) and (content['page']+1 < content['pages']):
   <ul class="pager">
   <li><a href="?page=$(content['page']+1)">Next</a></li>
   </ul>

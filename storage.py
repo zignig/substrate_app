@@ -2,7 +2,7 @@
 
 import requests,string,pika,json
 
-pagination = 20
+pagination = 50
 class storage:
 	def __init__(self,couch,database):
 		self.couch = couch
@@ -24,6 +24,10 @@ class storage:
 		r = self.get_list('tag',tag,page)
 		return r
 
+	def home(self,name,page):
+		r = self.get_list('home','',page)
+		return r
+
 	def get_doc(self,id):
 		r = self.req.get(self.couch+'/'+self.database+'/'+id)
 		return r.json()
@@ -33,7 +37,10 @@ class storage:
 		return r.content
 
 	def get_list(self,view,value,page):
-		r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view+'?key="'+value+'"')
+		if value == '': 
+			r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view)
+		else:
+			r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view+'?key="'+value+'"')
 		d = r.json()
 		ret = {}
 		rows = len(d['rows'])
