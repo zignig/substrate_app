@@ -55,7 +55,7 @@ class storage:
 		
 
 	def get_list(self,view,value,page):
-		key_str = 'list:'+view+':'+value+':'+str(page)
+		key_str = 'list:'+view+':'+value
 		if value == '': 
 			r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view)
 		else:
