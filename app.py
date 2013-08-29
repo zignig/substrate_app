@@ -5,8 +5,8 @@ import markdown
 
 import storage
 
-couch = 'http://192.168.1.84:5984/'
-database = 'incoming'
+couch = 'http://couch.bl3dr.com/'
+database = 'stl'
 stor = storage.storage(couch,database)
 
 urls = (

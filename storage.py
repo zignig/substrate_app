@@ -1,6 +1,9 @@
 
 
 import requests,string,pika,json
+import redis
+
+red = redis.Redis()
 
 pagination = 50
 class storage:
@@ -8,12 +11,14 @@ class storage:
 		self.couch = couch
 		self.database = database
 		self.req = requests.Session()
-
-		credentials = pika.PlainCredentials('guest','guest')
-		connection = pika.BlockingConnection(pika.ConnectionParameters(credentials=credentials,host='192.168.1.84'))
-		channel = connection.channel()
-		channel.basic_qos(prefetch_count=1)
-		self.channel = channel
+		try:
+			credentials = pika.PlainCredentials('guest','guest')
+			connection = pika.BlockingConnection(pika.ConnectionParameters(credentials=credentials,host='192.168.1.84'))
+			channel = connection.channel()
+			channel.basic_qos(prefetch_count=1)
+			self.channel = channel
+		except:
+			print 'no carrot for you'
 
 		
 	def author(self,author,page):
@@ -33,8 +38,15 @@ class storage:
 		return r.json()
 
 	def get_attach(self,path):
-		r = self.req.get(self.couch+'/'+self.database+'/'+path)
-		return r.content
+		if red.exists('att:'+path):
+			return red.get('att:'+path)
+		else:
+			r = self.req.get(self.couch+'/'+self.database+'/'+path)
+			data = r.content
+			red.set('att:'+path,data)
+			red.expire('att:'+path,86400)
+			return data	
+		
 
 	def get_list(self,view,value,page):
 		if value == '': 
