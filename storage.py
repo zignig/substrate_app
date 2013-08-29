@@ -34,8 +34,14 @@ class storage:
 		return r
 
 	def get_doc(self,id):
-		r = self.req.get(self.couch+'/'+self.database+'/'+id)
-		return r.json()
+		if red.exists('id:'+id):
+			return json.loads(red.get('id:'+id))
+		else:
+			r = self.req.get(self.couch+'/'+self.database+'/'+id)
+			data = r.json()
+			red.set('id:'+id,json.dumps(data))
+			red.expire('id:'+id,86400)
+			return data
 
 	def get_attach(self,path):
 		if red.exists('att:'+path):
@@ -49,11 +55,17 @@ class storage:
 		
 
 	def get_list(self,view,value,page):
+		key_str = 'list:'+view+':'+value+':'+str(page)
 		if value == '': 
 			r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view)
 		else:
-			r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view+'?key="'+value+'"')
-		d = r.json()
+			if red.exists(key_str):
+				d = json.loads(red.get(key_str))
+			else:
+				r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view+'?key="'+value+'"')
+				red.set(key_str,r.content)	
+				red.expire(key_str,86400)
+				d = r.json()
 		ret = {}
 		rows = len(d['rows'])
 		pages = (rows//pagination)+1
