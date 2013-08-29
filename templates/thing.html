@@ -7,6 +7,12 @@ $if 'name' in content:
 $if 'author' in content:
   by <a href="/author/$content['author']">$content['author']</a>
   <hr>
+$if 'thumb' in content:
+  <h4><span class="glyphicon glyphicon-picture"></span> Images</h4>
+  <div class="inner-item">
+  <img class="img-thumbnail" src="/attachment/$content['_id']/$content['thumb']">
+  </div>
+  <hr>
 $if 'description' in content:
   <h4><span class="glyphicon glyphicon-book"></span> Description</h4>
   $:markdown(content['description'])
@@ -16,12 +22,6 @@ $if 'tags' in content:
   <div class="btn-group">
   $for i in content['tags']:
     <a class="btn btn-default" href="/tags/$i">$i</a>
-  </div>
-  <hr>
-$if 'thumb' in content:
-  <h4><span class="glyphicon glyphicon-picture"></span> Images</h4>
-  <div class="inner-item">
-  <img class="img-thumbnail" src="/attachment/$content['_id']/$content['thumb']">
   </div>
   <hr>
 $if '_attachments' in content:

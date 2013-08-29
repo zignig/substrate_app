@@ -4,13 +4,19 @@ $content['rows'] items for $content['view']<br>
 <div class="inner-item">
 $if content['pages'] > 1:
   <ul class="pagination">
-  <li><a href="?page=$(content['page']-1)">&laquo;</a></li>
+  $if content['page'] > 0:
+    <li><a href="?page=$(content['page']-1)">&laquo;</a></li>
+  $else:
+    <li><a href="">&laquo;</a></li>
   $for i in range(content['pages']):
     $if i == content['page']:
       <li class="active"><a href="?page=$i">$i</a></li>
     $else:
       <li><a href="?page=$i">$i</a></li>
-  <li><a href="#">&raquo;</a></li>
+  $if content['page'] < content['pages']-1:
+    <li><a href="?page=$(content['page']+1)">&raquo;</a></li>
+  $else:
+    <li><a href="">&raquo;</a></li>
   </ul>
 </div>
 <hr>
