@@ -10,7 +10,7 @@ class RedisStore(web.session.Store):
     import rediswebpy
     session = web.session.Session(app, rediswebpy.RedisStore(), initializer={'count': 0})
     """
-    def __init__(self, ip='localhost', port=6379, db=0, initial_flush=False):
+    def __init__(self, ip='localhost', port=6379, db=5, initial_flush=False):
         self.redis_server = redis.Redis(ip, port, db)
         if initial_flush:
             """
