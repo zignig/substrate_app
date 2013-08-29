@@ -1,0 +1,4 @@
+css to replace bootstrap : http://ink.sapo.pt/js/core
+css to replace bootstrap : http://foundation.zurb.com/
+
+couchdb api reference : https://couchdb-13.readthedocs.org/en/latest/api/documents/

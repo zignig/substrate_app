@@ -4,13 +4,16 @@ import requests,string
 import markdown
 
 import storage
+import rediswebpy
 
 couch = 'http://couch.bl3dr.com/'
 database = 'stl'
 stor = storage.storage(couch,database)
 
+web.config.debug = False
+
 urls = (
-	'/','slides',
+	'/','tags',
     '/author/(.*)','author',
     '/tags/(.*)','tags',
     '/slides/','slides',
@@ -41,15 +44,17 @@ def actions(id):
 
 app = web.application(urls, globals())
 
+session = web.session.Session(app, rediswebpy.RedisStore(), initializer={'authors': {}})
+
 t_globals = {
 	'actions': actions ,
 	'menu':get_menu,
 	'nav_bar':nav_bar,
-	'markdown': markdown.markdown
+	'markdown': markdown.markdown,
+	'context': session
 }
 
 render = web.template.render('templates/',base='base',globals=t_globals)
-#session = web.session.Session(app, web.session.DiskStore('sessions'), initializer={'count': 0})
 
 class home:
 	def GET(self):
@@ -69,6 +74,9 @@ class thing:
 class author:
 	def GET(self,name):
 		page = web.input(page=0)
+		if 'author' not in session:
+			session.author = {}
+		session.author[name] = 'viewed'
 		l = stor.author(name,int(page['page']))
 		return render.item_list(l)
 
@@ -79,8 +87,11 @@ class do_action:
 		return 'woot'
 
 class tags:
-	def GET(self,name):
+	def GET(self,name=''):
 		page = web.input(page=0)
+		if 'tags' not in session:
+			session.tags = {}
+		session.tags[name] = 'viewed'
 		l = stor.tag(name,int(page['page']))
 		return render.item_list(l)
 
