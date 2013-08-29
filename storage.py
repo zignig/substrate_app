@@ -56,16 +56,16 @@ class storage:
 
 	def get_list(self,view,value,page):
 		key_str = 'list:'+view+':'+value
-		if value == '': 
-			r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view)
+		if red.exists(key_str):
+			d = json.loads(red.get(key_str))
 		else:
-			if red.exists(key_str):
-				d = json.loads(red.get(key_str))
+			if value == '': 
+				r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view)
 			else:
 				r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view+'?key="'+value+'"')
-				red.set(key_str,r.content)	
-				red.expire(key_str,86400)
-				d = r.json()
+			red.set(key_str,r.content)	
+			red.expire(key_str,86400)
+			d = r.json()
 		ret = {}
 		rows = len(d['rows'])
 		pages = (rows//pagination)+1
