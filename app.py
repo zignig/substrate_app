@@ -57,7 +57,7 @@ render = web.template.render('templates/',base='base',globals=t_globals)
 
 class home:
 	def GET(self):
-		return render.index()
+		return render.index(stor.info())
 
 class config:
 	def GET(self):

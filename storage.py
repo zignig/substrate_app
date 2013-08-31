@@ -22,6 +22,14 @@ class storage:
 			print 'no carrot for you'
 
 			
+	def info(self):
+		r = self.req.get(self.couch+'_all_dbs')
+		return r.json()
+
+	def author_list(self,author,page):
+		r = self.get_list('author_list',author,page)
+		return r 
+
 	def author(self,author,page):
 		r = self.get_list('author',author,page)
 		return r 
