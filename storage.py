@@ -6,6 +6,7 @@ import redis
 red = redis.Redis()
 
 pagination = 50
+ttl = 86400
 class storage:
 	def __init__(self,couch,database):
 		self.couch = couch
@@ -20,7 +21,7 @@ class storage:
 		except:
 			print 'no carrot for you'
 
-		
+			
 	def author(self,author,page):
 		r = self.get_list('author',author,page)
 		return r 
@@ -40,7 +41,7 @@ class storage:
 			r = self.req.get(self.couch+'/'+self.database+'/'+id)
 			data = r.json()
 			red.set('id:'+id,json.dumps(data))
-			red.expire('id:'+id,86400)
+			red.expire('id:'+id,ttl)
 			return data
 
 	def get_attach(self,path):
@@ -50,7 +51,7 @@ class storage:
 			r = self.req.get(self.couch+'/'+self.database+'/'+path)
 			data = r.content
 			red.set('att:'+path,data)
-			red.expire('att:'+path,86400)
+			red.expire('att:'+path,ttl)
 			return data	
 		
 
@@ -64,7 +65,7 @@ class storage:
 			else:
 				r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view+'?key="'+value+'"')
 			red.set(key_str,r.content)	
-			red.expire(key_str,86400)
+			red.expire(key_str,ttl)
 			d = r.json()
 		ret = {}
 		rows = len(d['rows'])

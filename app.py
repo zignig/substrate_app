@@ -13,7 +13,7 @@ stor = storage.storage(couch,database)
 web.config.debug = False
 
 urls = (
-	'/','tags',
+	'/','home',
     '/author/(.*)','author',
     '/tags/(.*)','tags',
     '/slides/','slides',
@@ -21,11 +21,10 @@ urls = (
     '/thing/(.*)','thing',
     '/attachment/(.*)','attachment',
 	'/action/(.+)/(.+)','do_action',
-	'/graph/(.*)','d3graph',
-	'/(.*)', 'hello'
+	'/graph/(.*)','d3graph'
 )
 
-inserts = web.template.render('templates/')
+inserts = web.template.render('templates/inserts/')
 
 def get_menu():
 	data = [['test','blah']]
