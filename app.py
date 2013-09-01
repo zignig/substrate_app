@@ -7,7 +7,7 @@ import storage
 import rediswebpy
 
 couch = 'http://192.168.1.84:5984/'
-database = 'incoming'
+database = 'test'
 stor = storage.storage(couch,database)
 
 #web.config.debug = False
@@ -21,7 +21,8 @@ urls = (
     '/thing/(.*)','thing',
     '/attachment/(.*)','attachment',
 	'/action/(.+)/(.+)','do_action',
-	'/graph/(.*)','d3graph'
+	'/graph/(.*)','d3graph',
+	'/slides','slides'
 )
 
 inserts = web.template.render('templates/inserts/')
@@ -112,7 +113,7 @@ class slides:
 	def GET(self):
 		page = web.input(page=0)
 		l = stor.home('',int(page['page']))
-		return render.item_list(l)
+		return render.slides(l)
 
 if __name__ == "__main__":
     app.run()

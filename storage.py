@@ -7,6 +7,9 @@ red = redis.Redis()
 
 pagination = 50
 ttl = 86400
+#design = "substrate_explorer"
+design = "viewer"
+
 class storage:
 	def __init__(self,couch,database):
 		self.couch = couch
@@ -69,9 +72,9 @@ class storage:
 			d = json.loads(red.get(key_str))
 		else:
 			if value == '': 
-				r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view)
+				r = self.req.get(self.couch+'/'+self.database+'/_design/'+design+'/_view/'+view)
 			else:
-				r = self.req.get(self.couch+'/'+self.database+'/_design/substrate_explorer/_view/'+view+'?key="'+value+'"')
+				r = self.req.get(self.couch+'/'+self.database+'/_design/'+design+'/_view/'+view+'?key="'+value+'"')
 			red.set(key_str,r.content)	
 			red.expire(key_str,ttl)
 			d = r.json()

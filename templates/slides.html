@@ -6,14 +6,14 @@ $var title: 'slides'
   <div height="400px" class="carousel-inner">
     <div class="item active">
     <div class="inner-item">
-  	  <img  src="$content['couch']/$content['database']/$content['rows'][0]['id']/$content['rows'][0]['value']" alt="stuff">
+    <img class="img-thumbnail" src="/static/img/placeholder.png">
     </div>
     </div>
-$for i in content['rows'][1:]:
+$for i in content['data']:
   <div class="item ">
   <div class="inner-item">
   <a href="/thing/$i['id']">
-  <img  src="$content['couch']/$content['database']/$i['id']/$i['value']" alt="stuff">
+  <img class="img-thumbnail" src="/attachment/$i['id']/$i['value']['thumb']">
   </a>
   <div class="carousel-caption">
   </div>

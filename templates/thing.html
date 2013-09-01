@@ -1,4 +1,5 @@
 $def with (content)
+<div class="row">
 $if 'name' in content:
   $if len(content['name']) < 20:
     <h1>$content['name']</h1>
@@ -6,23 +7,34 @@ $if 'name' in content:
     <h3>$content['name']</h3>
 $if 'author' in content:
   by <a href="/author/$content['author']">$content['author']</a>
-  <hr>
 $if 'thumb' in content:
-  <h4><span class="glyphicon glyphicon-picture"></span> Images</h4>
-  <div class="inner-item">
+  <div class="pull-right clearfix">
   <img class="img-thumbnail" src="/attachment/$content['_id']/$content['thumb']">
   </div>
-  <hr>
-$if 'description' in content:
-  <h4><span class="glyphicon glyphicon-book"></span> Description</h4>
-  $:markdown(content['description'])
-  <hr>
+</div>
+<hr>
 $if 'tags' in content:
   <h4><span class="glyphicon glyphicon-tags"></span> Tags</h4>
   <div class="btn-group">
   $for i in content['tags']:
     <a class="btn btn-default" href="/tags/$i">$i</a>
   </div>
+  <hr>
+$if 'file_info' in content:
+  <h4><span class="glyphicon glyphicon-folder-open"></span>  Files</h4>
+  <ul class="list-group">
+  $for i in content['file_info']:
+    <li class="list-group-item">
+    $for j in content['file_info'][i]:
+      <a href="/attachment/$content['_id']/$j">
+      <img class="img-thumbnail" src="/attachment/$content['_id']/$content['file_info'][i][j]">
+      </a>
+    </li>
+  </ul>
+  <hr>
+$if 'description' in content:
+  <h4><span class="glyphicon glyphicon-book"></span> Description</h4>
+  $:markdown(content['description'])
   <hr>
 $if '_attachments' in content:
   <h4><span class="glyphicon glyphicon-folder-open"></span>  Files</h4>
