@@ -10,7 +10,7 @@ couch = 'http://192.168.1.84:5984/'
 database = 'incoming'
 stor = storage.storage(couch,database)
 
-web.config.debug = False
+#web.config.debug = False
 
 urls = (
 	'/','home',
