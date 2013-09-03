@@ -13,6 +13,12 @@ $if 'thumb' in content:
   </div>
 </div>
 <hr>
+$if 'path' in content:
+  <ol class="breadcrumb">
+  $for i in content['path']:
+    <li><a href="#">$i</a></li>
+  </ol>
+  <hr>
 $if 'tags' in content:
   <h4><span class="glyphicon glyphicon-tags"></span> Tags</h4>
   <div class="btn-group">
