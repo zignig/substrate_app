@@ -3,11 +3,6 @@ import web
 import requests,string
 import markdown
 
-import storage
-import rediswebpy
-
-couch = 'http://192.168.1.84:5984/'
-database = 'test'
 stor = storage.storage(couch,database)
 
 #web.config.debug = False
@@ -22,6 +17,7 @@ urls = (
     '/attachment/(.*)','attachment',
 	'/action/(.+)/(.+)','do_action',
 	'/graph/(.*)','d3graph',
+	'/addtag/(.+)/(.+)','append_tag',
 	'/slides','slides'
 )
 
@@ -37,6 +33,11 @@ def nav_bar():
 	nav = inserts.nav_bar(data)
 	return nav
 
+def add_tag(id):
+	data = ['one','two','three']
+	tags = inserts.tags(data,id)
+	return tags 
+
 def actions(id):
 	data = ['process','render','clean','strip','print']
 	actions = inserts.actions(data,id)
@@ -51,6 +52,7 @@ t_globals = {
 	'menu':get_menu,
 	'nav_bar':nav_bar,
 	'markdown': markdown.markdown,
+	'addtag': add_tag,
 	'context': session
 }
 
@@ -94,6 +96,10 @@ class tags:
 		session.tags[name] = 'viewed'
 		l = stor.tag(name,int(page['page']))
 		return render.item_list(l)
+
+class append_tag:
+	def GET(self,tag,doc_id):
+		print tag,doc_id
 
 class attachment:
 	def GET(self,name):
