@@ -29,15 +29,7 @@ $if 'tags' in content:
   <hr>
 $if 'file_info' in content:
   <h4><span class="glyphicon glyphicon-folder-open"></span>  Files</h4>
-  <ul class="list-group">
-  $for i in content['file_info']:
-    <li class="list-group-item">
-    $for j in content['file_info'][i]:
-      <a href="/attachment/$content['_id']/$j">
-      <img class="img-thumbnail" src="/attachment/$content['_id']/$content['file_info'][i][j]">
-      </a>
-    </li>
-  </ul>
+  $:file_block(content['file_info'],content['_id'])
   <hr>
 $if 'description' in content:
   <h4><span class="glyphicon glyphicon-book"></span> Description</h4>

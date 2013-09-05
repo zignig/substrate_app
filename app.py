@@ -43,6 +43,10 @@ def actions(id):
 	actions = inserts.actions(data,id)
 	return actions
 
+def file_block(data,doc_id):
+	block = inserts.file_block(data,doc_id)
+	return block 
+
 app = web.application(urls, globals())
 
 session = web.session.Session(app, rediswebpy.RedisStore(), initializer={'authors': {}})
@@ -52,7 +56,8 @@ t_globals = {
 	'menu':get_menu,
 	'nav_bar':nav_bar,
 	'markdown': markdown.markdown,
-	'context': session
+	'context': session,
+	'file_block' : file_block
 }
 
 render = web.template.render('templates/',base='base',globals=t_globals)
