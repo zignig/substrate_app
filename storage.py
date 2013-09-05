@@ -6,9 +6,9 @@ import redis
 red = redis.Redis()
 
 pagination = 50
-ttl = 86400
-#design = "substrate_explorer"
-design = "viewer"
+ttl = 10
+design = "substrate_explorer"
+#design = "viewer"
 
 class storage:
 	def __init__(self,couch,database):

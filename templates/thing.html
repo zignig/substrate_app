@@ -14,9 +14,10 @@ $if 'thumb' in content:
 </div>
 <hr>
 $if 'path' in content:
+  <h4><span class="glyphicon glyphicon-folder-open"></span>  Path</h4>
   <ol class="breadcrumb">
-  $for i in content['path']:
-    <li><a href="#">$i</a></li>
+  $for i in range(len(content['path'])):
+    <li><a href="/path/$content['path'][0:i+1]">$content['path'][i]</a></li>
   </ol>
   <hr>
 $if 'tags' in content:

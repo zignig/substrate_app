@@ -5,10 +5,10 @@ import markdown
 
 import storage
 import rediswebpy
+import json
 
-couch = 'http://192.168.1.84:5984/'
-database = 'zignig'
-stor = storage.storage(couch,database)
+config = json.loads(open('config.json').read())
+stor = storage.storage(config['couch'],config['database'])
 
 #web.config.debug = False
 
