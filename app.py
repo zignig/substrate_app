@@ -22,7 +22,8 @@ urls = (
     '/attachment/(.*)','attachment',
 	'/action/(.+)/(.+)','do_action',
 	'/graph/(.*)','d3graph',
-	'/slides','slides'
+	'/slides','slides',
+	'/stl/(.+)/(.+)','stl_view',
 )
 
 inserts = web.template.render('templates/inserts/')
@@ -106,8 +107,12 @@ class d3graph:
 		return render.graph(name)
 
 class hello:        
-    def GET(self, name):
+	def GET(self, name):
 		return render.three()
+
+class stl_view:
+	def GET(self,id,attachment):
+		return render.three(id,attachment)
 
 class slides:
 	def GET(self):

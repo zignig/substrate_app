@@ -1,3 +1,4 @@
+$def with (id,attach)
 <div id="tjs" width="300px" height="300px" ></div>
 		<script src="../static/js/three.min.js"></script>
 
@@ -30,8 +31,8 @@
 				scene = new THREE.Scene();
 				//scene.fog = new THREE.FogExp2( 0xcccccc, 0.002 );
 
-				loader = new THREE.JSONLoader();
-                                  loader.load( "../static/models/model.js", function( geometry ) { mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial({ color : 0xAAAAAA}) );scene.add(mesh) } );
+				loader = new THREE.STLLoader();
+                                  loader.load( "/attachment/$id/$attach", function( geometry ) { mesh = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial({ color : 0xAAAAAA}) );scene.add(mesh) } );
 				// world
 
 				// lights
