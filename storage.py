@@ -57,13 +57,17 @@ class storage:
 
 	def get_attach(self,path):
 		if red.exists('att:'+path):
-			return red.get('att:'+path)
+			return red.get('type:'+path),red.get('att:'+path)
 		else:
 			r = self.req.get(self.couch+'/'+self.database+'/'+path)
+			ct = r.headers.get('content-type')
+			print ct
 			data = r.content
 			red.set('att:'+path,data)
+			red.set('type:'+path,ct)
 			red.expire('att:'+path,ttl)
-			return data	
+			red.expire('type:'+path,ttl)
+			return ct,data	
 		
 
 	def get_list(self,view,value,page):

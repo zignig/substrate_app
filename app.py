@@ -103,7 +103,8 @@ class tags:
 
 class attachment:
 	def GET(self,name):
-		r = stor.get_attach(name)
+		ct,r = stor.get_attach(name)
+		web.header('Content-Type',ct)
 		return r
 
 class d3graph:

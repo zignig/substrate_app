@@ -26,8 +26,8 @@ $def with (id,attach)
 			function init() {
 
 				camera = new THREE.PerspectiveCamera( 30,window.innerWidth / window.innerHeight , 1, 5000 );
-				camera.position.z = 300;
-				camera.position.y = 300;
+				camera.position.z = 100;
+				camera.position.y = 100;
 
 				controls = new THREE.TrackballControls( camera );
 				controls.addEventListener( 'change', render );
@@ -80,7 +80,7 @@ $def with (id,attach)
 				renderer.shadowMapCullFace = THREE.CullFaceBack;
 
 				container = document.getElementById( 'tjs' );
-				renderer.setSize(window.innerWidth/2,window.innerHeight/2);
+				renderer.setSize(window.innerWidth*0.75,window.innerHeight*0.75);
 				container.appendChild( renderer.domElement );
 
 				//stats = new Stats();
