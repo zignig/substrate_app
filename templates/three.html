@@ -3,7 +3,7 @@ $def with (id,attach)
 <div class="inner-item"><a href="/thing/$id" class="btn btn-default">back</a></div>
 		<script src="/static/js/three.min.js"></script>
 
-		<script src="/static/js/OrbitControls.js"></script>
+		<script src="/static/js/TrackballControls.js"></script>
 
 		<script src="/static/js/Detector.js"></script>
 		<script src="/static/js/stats.min.js"></script>
@@ -29,7 +29,7 @@ $def with (id,attach)
 				camera.position.z = 300;
 				camera.position.y = 300;
 
-				controls = new THREE.OrbitControls( camera );
+				controls = new THREE.TrackballControls( camera );
 				controls.addEventListener( 'change', render );
 
 				scene = new THREE.Scene();
