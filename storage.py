@@ -6,7 +6,7 @@ import redis
 red = redis.Redis()
 
 pagination = 50
-ttl = 10
+ttl = 86400 
 design = "substrate_explorer"
 #design = "viewer"
 
