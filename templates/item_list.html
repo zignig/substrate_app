@@ -22,7 +22,7 @@ $if content['pages'] > 1:
 <hr>
 <div class="row">
 $for i in content['data']:
-  <div class="pull-left padded">
+  <div  class="pull-left padded">
   <a href="/thing/$i['id']">
   $if 'thumb' in i['value']:
     <img class="img-thumbnail" src="/attachment/$i['id']/$i['value']['thumb']">

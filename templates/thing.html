@@ -32,7 +32,7 @@ $if 'description' in content:
   $:markdown(content['description'])
   <hr>
 $if 'file_info' in content:
-  <h4><span class="glyphicon glyphicon-folder-open"></span>  Files</h4>
+  <h4><span class="glyphicon glyphicon-folder-open"></span>  Thumbnails</h4>
   $:file_block(content['file_info'],content['_id'])
   <hr>
 $if '_attachments' in content:

@@ -1,0 +1,22 @@
+$def with (content)
+<div class="inner-item">
+<div class="row">
+$for i in content['data']:
+  <div class="pull-left padded">
+  <a href="/thing/$i['id']">
+  $if 'thumb' in i['value']:
+    <img class="img-thumbnail" src="/attachment/$i['id']/$i['value']['thumb']">
+  $else:
+    <img class="img-thumbnail" src="/static/img/placeholder.png">
+  <br>
+  $if 'name' in i['value']:
+    $if len(i['value']['name']) < 25:
+      <a href="/thing/$i['id']">$i['value']['name']</a>
+    $else:
+      <a title="" data-toggle="tooltip" data-original-title="$i['value']['name']" href="/thing/$i['id']">$i['value']['name'][:25]...</a>
+  $if 'author' in i['value']:
+    <br><small>by <a href="/author/$i['value']['author']">$i['value']['author']</a></small>
+  </a>
+  <p>
+  </div>
+</div>

@@ -7,8 +7,9 @@ import storage
 import rediswebpy
 import json
 
-config = json.loads(open('config.json').read())
-stor = storage.storage(config['couch'],config['database'])
+global configd
+configd = json.loads(open('config.json').read())
+stor = storage.storage(configd['couch'],configd['database'])
 
 #web.config.debug = False
 
@@ -24,6 +25,7 @@ urls = (
 	'/graph/(.*)','d3graph',
 	'/slides','slides',
 	'/stl/(.+)/(.+)','stl_view',
+	'/image/(.+)/(.+)','image_view'
 )
 
 inserts = web.template.render('templates/inserts/')
@@ -64,7 +66,10 @@ render = web.template.render('templates/',base='base',globals=t_globals)
 
 class home:
 	def GET(self):
-		return render.index(stor.info())
+		#l = stor.author(configd['author'],0)
+		l = stor.tag('new',0)
+		my_stuff = inserts.thumblist(l)
+		return render.index(my_stuff)
 
 class config:
 	def GET(self):
@@ -119,6 +124,10 @@ class hello:
 class stl_view:
 	def GET(self,id,attachment):
 		return render.three(id,attachment)
+
+class image_view:
+	def GET(self,id,attachment):
+		return render.image(id,attachment)
 
 class slides:
 	def GET(self):
