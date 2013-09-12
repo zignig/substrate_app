@@ -25,7 +25,8 @@ urls = (
 	'/graph/(.*)','d3graph',
 	'/slides','slides',
 	'/stl/(.+)/(.+)','stl_view',
-	'/image/(.+)/(.+)','image_view'
+	'/image/(.+)/(.+)','image_view',
+	'/cube/','cube'
 )
 
 inserts = web.template.render('templates/inserts/')
@@ -120,6 +121,10 @@ class d3graph:
 class hello:        
 	def GET(self, name):
 		return render.three()
+
+class cube:
+	def GET(self):
+		return render.cube('','')
 
 class stl_view:
 	def GET(self,id,attachment):

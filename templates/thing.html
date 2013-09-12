@@ -29,7 +29,9 @@ $if 'tags' in content:
   <hr>
 $if 'description' in content:
   <h4><span class="glyphicon glyphicon-book"></span> Description</h4>
+  <div class="mardowned">
   $:markdown(content['description'])
+  </div>
   <hr>
 $if 'file_info' in content:
   <h4><span class="glyphicon glyphicon-folder-open"></span>  Thumbnails</h4>
