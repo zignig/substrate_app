@@ -5,6 +5,7 @@ import redis
 
 red = redis.Redis()
 
+# move into config
 pagination = 50
 ttl = 10 
 design = "substrate_explorer"
