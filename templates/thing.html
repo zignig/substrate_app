@@ -27,12 +27,14 @@ $if 'tags' in content:
     <a class="btn btn-default" href="/tags/$i">$i</a>
   </div>
   <hr>
+<h4><span class="glyphicon glyphicon-book"></span> Description</h4>
 $if 'description' in content:
-  <h4><span class="glyphicon glyphicon-book"></span> Description</h4>
   <div class="mardowned">
   $:markdown(content['description'])
   </div>
-  <hr>
+$else:
+  <div class="alert alert-danger">No Description</div>
+<hr>
 $if 'file_info' in content:
   <h4><span class="glyphicon glyphicon-folder-open"></span>  Thumbnails</h4>
   $:file_block(content['file_info'],content['_id'])
