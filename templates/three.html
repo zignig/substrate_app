@@ -1,0 +1,146 @@
+$def with (id,attach)
+<div id="tjs" class="inner-item well"></div>
+<div class="inner-item"><a href="/thing/$id" class="btn btn-default">back</a></div>
+		<script src="/static/js/three.min.js"></script>
+
+		<script src="/static/js/TrackballControls.js"></script>
+
+		<script src="/static/js/Detector.js"></script>
+		<script src="/static/js/stats.min.js"></script>
+		<script src="/static/js/STLLoader.js"></script>
+
+		<script>
+
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+			var container, stats;
+
+			var camera, controls, scene, renderer;
+
+			var cross;
+
+			init();
+			animate();
+
+			function init() {
+
+				camera = new THREE.PerspectiveCamera( 30,window.innerWidth / window.innerHeight , 1, 5000 );
+				camera.position.z = 100;
+				camera.position.y = 100;
+
+				controls = new THREE.TrackballControls( camera );
+				controls.addEventListener( 'change', render );
+
+				scene = new THREE.Scene();
+
+				loader = new THREE.STLLoader();
+                loader.addEventListener( "load", function( event ) { 
+					var geometry = event.content;
+					var material = new THREE.MeshPhongMaterial( { ambient: 0x0000, color: 0xff5533, specular: 0x111111, shininess: 200 } );
+					mesh = new THREE.Mesh( geometry,material );
+					mesh.rotation.set( -Math.PI / 2 ,0,0);
+					mesh.castShadow = true;
+					mesh.receiveShadow = true;
+					scene.add(mesh) 
+				});
+
+				loader.load( "/attachment/$id/$attach");
+				// world
+
+				// Ground
+
+				//var plane = new THREE.Mesh( 
+				//	new THREE.PlaneGeometry( 200, 200 ), 
+				//	new THREE.MeshPhongMaterial( { color: 0x999999, specular: 0x101010 } ) 
+				//);
+				//plane.rotation.x = - Math.PI/2;
+				//plane.receiveShadow = true;
+				//scene.add( plane );
+
+				// lights
+
+				light = new THREE.AmbientLight( 0xffffff);
+				//scene.add( light );
+
+				addShadowedLight( 50, 50, 50, 0xffffff, 0.9);
+				addShadowedLight( -60, 55, -40, 0xffffff, 0.8);
+				addShadowedLight( -60, -55, -40, 0xffffff, 0.8);
+
+
+				// renderer
+
+				renderer = new THREE.WebGLRenderer( { antialias: true , alpha: false} );
+				//renderer.setClearColor( scene.fog.color, 1 );
+				renderer.gammaInput = true;
+				renderer.gammaOutput = true;
+				renderer.physicallyBasedShading = true;
+
+				renderer.shadowMapEnabled = true;
+				renderer.shadowMapCullFace = THREE.CullFaceBack;
+
+				container = document.getElementById( 'tjs' );
+				renderer.setSize(window.innerWidth*0.75,window.innerHeight*0.75);
+				container.appendChild( renderer.domElement );
+
+				//stats = new Stats();
+				//stats.domElement.style.position = 'absolute';
+				//stats.domElement.style.top = '0px';
+				//stats.domElement.style.zIndex = 100;
+				//container.appendChild( stats.domElement );
+
+				//
+
+
+				//renderer.render(scene,camera);
+				window.addEventListener( 'resize', onWindowResize, false );
+			}
+
+			function addShadowedLight( x, y, z, color, intensity ) {
+
+				var directionalLight = new THREE.DirectionalLight( color, intensity );
+				directionalLight.position.set( x, y, z )
+				scene.add( directionalLight );
+
+				directionalLight.castShadow = true;
+				//directionalLight.shadowCameraVisible = true;
+
+				var d = 400;
+				directionalLight.shadowCameraLeft = -d;
+				directionalLight.shadowCameraRight = d;
+				directionalLight.shadowCameraTop = d;
+				directionalLight.shadowCameraBottom = -d;
+
+				directionalLight.shadowCameraNear = 1;
+				directionalLight.shadowCameraFar = 200;
+
+				directionalLight.shadowMapWidth = 128;
+				directionalLight.shadowMapHeight = 128;
+
+				directionalLight.shadowBias = -0.005;
+				directionalLight.shadowDarkness = 0.15;
+
+			}
+
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				//renderer.setSize( window.innerWidth, window.innerHeight );
+
+				render();
+
+			}
+
+			function animate() {
+				requestAnimationFrame( animate );
+				controls.update();
+				//render();
+			}
+
+			function render() {
+				renderer.render( scene, camera );
+			}
+
+
+		</script>

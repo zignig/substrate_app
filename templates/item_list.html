@@ -1,0 +1,48 @@
+$def with (content)
+<h2>$content['value']</h2>
+$content['rows'] items for $content['view']<br>
+<div class="inner-item">
+$if content['pages'] > 1:
+  <ul class="pagination">
+  $if content['page'] > 0:
+    <li><a href="?page=$(content['page']-1)">&laquo;</a></li>
+  $else:
+    <li><a href="">&laquo;</a></li>
+  $for i in range(content['pages']):
+    $if i == content['page']:
+      <li class="active"><a href="?page=$i">$i</a></li>
+    $else:
+      <li><a href="?page=$i">$i</a></li>
+  $if content['page'] < content['pages']-1:
+    <li><a href="?page=$(content['page']+1)">&raquo;</a></li>
+  $else:
+    <li><a href="">&raquo;</a></li>
+  </ul>
+</div>
+<hr>
+<div class="row">
+$for i in content['data']:
+  <div  class="pull-left padded">
+  <a href="/thing/$i['id']">
+  $if 'thumb' in i['value']:
+    <img class="img-thumbnail" src="/attachment/$i['id']/$i['value']['thumb']">
+  $else:
+    <img class="img-thumbnail" src="/static/img/placeholder.png">
+  <br>
+  $if 'name' in i['value']:
+    $if len(i['value']['name']) < 25:
+      <a href="/thing/$i['id']">$i['value']['name']</a>
+    $else:
+      <a title="" data-toggle="tooltip" data-original-title="$i['value']['name']" href="/thing/$i['id']">$i['value']['name'][:25]...</a>
+  $if 'author' in i['value']:
+    <br><small>by <a href="/author/$i['value']['author']">$i['value']['author']</a></small>
+  </a>
+  <p>
+  </div>
+</div>
+<hr>
+
+$if (content['pages'] > 1) and (content['page']+1 < content['pages']):
+  <ul class="pager">
+  <li><a href="?page=$(content['page']+1)">Next</a></li>
+  </ul>

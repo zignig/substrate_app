@@ -1,0 +1,55 @@
+$def with (content)
+<div class="row">
+$if 'name' in content:
+  $if len(content['name']) < 20:
+    <h1>$content['name']</h1>
+  $else:
+    <h3>$content['name']</h3>
+$if 'author' in content:
+  by <a href="/author/$content['author']">$content['author']</a>
+$if 'thumb' in content:
+  <div class="pull-right clearfix">
+  <img class="img-thumbnail" src="/attachment/$content['_id']/$content['thumb']">
+  </div>
+</div>
+<hr>
+$if 'path' in content:
+  <h4><span class="glyphicon glyphicon-folder-open"></span>  Path</h4>
+  <ol class="breadcrumb">
+  $for i in range(len(content['path'])):
+    <li><a href="/path/$content['path'][0:i+1]">$content['path'][i]</a></li>
+  </ol>
+  <hr>
+$if 'tags' in content:
+  <h4><span class="glyphicon glyphicon-tags"></span> Tags</h4>
+  <div class="btn-group">
+  $for i in content['tags']:
+    <a class="btn btn-default" href="/tags/$i">$i</a>
+  </div>
+  <hr>
+<h4><span class="glyphicon glyphicon-book"></span> Description</h4>
+$if 'description' in content:
+  <div class="mardowned">
+  $:markdown(content['description'])
+  </div>
+$else:
+  <div class="alert alert-danger">No Description</div>
+<hr>
+$if 'file_info' in content:
+  <h4><span class="glyphicon glyphicon-folder-open"></span>  Thumbnails</h4>
+  $:file_block(content['file_info'],content['_id'])
+  <hr>
+$if '_attachments' in content:
+  <h4><span class="glyphicon glyphicon-folder-open"></span>  Files</h4>
+  <ul class="list-group">
+  $for i in content['_attachments']:
+    <li class="list-group-item">
+    $i<a href="/attachment/$content['_id']/$i" class="label label-default pull-right">Download</a>
+    </li>
+  </ul>
+  <hr>
+<h4><span class="glyphicon glyphicon-wrench"></span> Actions</h4>
+$:actions(content['_id'])
+<hr>
+$if 'url' in content:
+  original: <a target="_blank" href="$content['url']">$content['url']</a>

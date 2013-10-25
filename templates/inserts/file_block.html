@@ -1,0 +1,12 @@
+$def with (data,doc_id)
+<ul class="list-group">
+$for i in data 
+  <li class="list-group-item">
+  <a href="/$data[i]['type']/$doc_id/$i">
+  $if 'thumb' in data[i]:
+    <img class="img-thumbnail" src="/attachment/$doc_id/$data[i]['thumb']">
+  $else:
+    $i
+  </a>
+  </li>
+</ul>

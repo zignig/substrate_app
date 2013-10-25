@@ -1,0 +1,5 @@
+$def with (data,id)
+<div class="btn-group">
+$for i in data:
+  <button onclick="send_action('$i','$id')" type="button" href="$id" class="btn btn-default">$i</button>
+</div>

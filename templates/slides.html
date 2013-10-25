@@ -1,0 +1,33 @@
+$def with (content)
+$var title: 'slides'
+<div class="bs-example">
+<div id="carousel-example-generic" class="carousel slide">
+  <!-- Wrapper for slides -->
+  <div height="400px" class="carousel-inner">
+    <div class="item active">
+    <div class="inner-item">
+    <img class="img-thumbnail" src="/static/img/placeholder.png">
+    </div>
+    </div>
+$for i in content['data']:
+  <div class="item ">
+  <div class="inner-item">
+  <a href="/thing/$i['id']">
+  <img class="img-thumbnail" src="/attachment/$i['id']/$i['value']['thumb']">
+  </a>
+  <div class="carousel-caption">
+  </div>
+  </div>
+  </div>
+</div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+    <span class="icon-prev"></span>
+  </a>
+  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+    <span class="icon-next"></span>
+  </a>
+</div>
+</div>
+
